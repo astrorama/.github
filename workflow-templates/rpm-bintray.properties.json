@@ -1,0 +1,11 @@
+{
+    "name": "RPM - Bintray",
+    "description": "Build RPM and upload to Bintray",
+    "iconName": "build-package",
+    "categories": [
+        "C++"
+    ],
+    "filePatterns": [
+        "^CMakeLists.txt$"
+    ]
+}
