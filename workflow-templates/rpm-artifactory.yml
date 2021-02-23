@@ -1,4 +1,4 @@
-name: RPM - Bintray
+name: RPM - Artifactory
 
 on:
   push:
@@ -15,11 +15,11 @@ jobs:
       matrix:
         include:
           - os-type: fedora
-            os-version: 31
-          - os-type: fedora
             os-version: 32
           - os-type: fedora
             os-version: 33
+          - os-type: fedora
+            os-version: 34
           - os-type: centos
             os-version: 7
           - os-type: centos
@@ -48,16 +48,16 @@ jobs:
       - name: Setup jfrog cli
         if: ${{ github.event_name != 'pull_request' }}
         uses: jfrog/setup-jfrog-cli@v1
-      - name: Upload RPM to Bintray
+        env:
+          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
+      - name: Upload RPM to Artifactory
         if: ${{ github.event_name != 'pull_request' }}
         env:
-          BINTRAY_TOKEN: ${{ secrets.bintray_token }}
-          BINTRAY_USER: ${{ secrets.bintray_user }}
           OS_TYPE: ${{ matrix.os-type }}
           OS_VERSION: ${{ matrix.os-version }}
           OS_ARCH: 'x86_64'
-          PACKAGE: ${{ steps.package-version.outputs.package }}
+          PROJECT: ${{ steps.package-version.outputs.project }}
           VERSION: ${{ steps.package-version.outputs.version }}
         run: |
-          jfrog bt config --user "${BINTRAY_USER}" --key "${BINTRAY_TOKEN}" --licenses LGPL3
-          jfrog bt u --publish --override "build/Packages/RPM/RPMS/x86_64/*.rpm" "astrorama/travis/${PACKAGE}/${VERSION}" "/${GITHUB_REF##*/}/${OS_TYPE}/${OS_VERSION}/${OS_ARCH}/rpms/"
+          jfrog rt u "${{ steps.build.outputs.rpm-dir }}/*.rpm" "fedora/${GITHUB_REF#refs/heads/}/${OS_TYPE}/${OS_VERSION}/${OS_ARCH}/rpms/"
+

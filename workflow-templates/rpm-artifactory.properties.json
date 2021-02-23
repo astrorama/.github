@@ -1,6 +1,6 @@
 {
-    "name": "RPM - Bintray",
-    "description": "Build RPM and upload to Bintray",
+    "name": "RPM - Artifactory",
+    "description": "Build RPM and upload to Artifactory",
     "iconName": "build-package",
     "categories": [
         "C++"
