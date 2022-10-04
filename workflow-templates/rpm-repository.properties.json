@@ -1,6 +1,6 @@
 {
-    "name": "RPM - Artifactory",
-    "description": "Build RPM and upload to Artifactory",
+    "name": "RPM - Repository",
+    "description": "Build RPM and upload to http://repository.astro.unige.ch/euclid",
     "iconName": "build-package",
     "categories": [
         "C++"
